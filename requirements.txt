@@ -1,0 +1,6 @@
+python-event-bus
+SpeechRecognition
+pyaudio
+opencv-python
+mediapipe
+numpy
