@@ -1,31 +1,22 @@
-import speech_recognition as sr
+from pocketsphinx import LiveSpeech
 from python_event_bus import EventBus
 
 class VoiceRecognition:
     def __init__(self):
-        self.recognizer = sr.Recognizer()
-        self.microphone = sr.Microphone()
-        print("Ajustando microfono para ruido ambiental... Por favor espere.")
-        with self.microphone as source:
-            self.recognizer.adjust_for_ambient_noise(source)
-            print("Microfono ajustado.")
+        self.speech = LiveSpeech(
+            verbose=False,
+            sampling_rate=16000,
+            buffer_size=2048,
+            no_search=False,
+            full_utt=False,
+            keyphrase="click",   # Set the keyphrase
+            kws_threshold=1e-20  # Adjust sensitivity
+        )
 
     def recognize_command(self):
-        with self.microphone as source:
-            audio = self.recognizer.listen(source)
-        try:
-            command = self.recognizer.recognize_google(audio)
-            if command == "click":
-                EventBus.call('click')
-            # print(f"Comando reconocido: {command}")
-        except sr.UnknownValueError:
-            # print("No se pudo reconocer el comando.")
-            pass
-        except sr.RequestError:
-            print("No se pudo obtener respuesta del servidor.")
-        except Exception as e:
-            print(f"Ocurrio un error: {e}")
+        EventBus.call('click')
     
     def voice_req_loop(self):
-        while True:
+        for speech in self.speech:
+            print("Comando:",speech)
             self.recognize_command()

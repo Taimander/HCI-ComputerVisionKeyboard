@@ -4,3 +4,4 @@ pyaudio
 opencv-python
 mediapipe
 numpy
+pocketsphinx
