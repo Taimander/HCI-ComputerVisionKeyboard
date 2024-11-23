@@ -61,6 +61,10 @@ while cap.isOpened():
             (1 - overlay_alpha) * frame[:, :, c]
         )
     
+    # Show button bounding boxes
+    # for btn in buttons.btns.values():
+    #     cv2.rectangle(frame, (btn[0], btn[1]), (btn[0] + btn[2], btn[1] + btn[3]), (0, 0, 255), 2)
+    
     # Display the frame with hand landmarks
     cv2.imshow('Hand Recognition', frame)
     
